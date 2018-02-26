@@ -11,7 +11,8 @@ module.exports = function (globs, options) {
     options = options || {};
 
     var delay = options.delay || 100;
-	var base = path.resolve(glob_parent(globs));
+    var base = path.resolve(glob_parent(globs));
+    var ignorePattern = options.ignorePattern;
 
     var dependency = jade_dependency(globs, options);
     var stream;
@@ -49,6 +50,7 @@ module.exports = function (globs, options) {
     }
 
     function add_path(abs_path) {
+	if(abs_path.match(ignorePattern)) return
         paths[abs_path] = true;
         request_flush();
     }
